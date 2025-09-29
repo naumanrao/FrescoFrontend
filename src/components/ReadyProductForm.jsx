@@ -14,9 +14,9 @@ export default function ReadyProductForm({ authContext, onSuccess }) {
     manufacturer: "",
     description: "",
     stock: 0,
-    size:"units",
+    size:"",
     price: 0,
-    ingredients: [],
+    // ingredients: [],
   });
   const [rawMaterials, setRawMaterials] = useState([]);
 
@@ -48,34 +48,34 @@ export default function ReadyProductForm({ authContext, onSuccess }) {
     const removeIngredient = (index) => {
     setProduct((prev) => ({
       ...prev,
-      ingredients: prev.ingredients.filter((_, i) => i !== index),
+      // ingredients: prev.ingredients.filter((_, i) => i !== index),
     }));
   };
   const handleIngredientChange = (index, field, value) => {
     setProduct(prev => ({
       ...prev,
-      ingredients: prev.ingredients.map((ingredient, i) => {
-        if (i === index) {
-          // For Select, just store the value directly
-          if (field === "material") {
-            return { ...ingredient, [field]: value };
-          }
-          // For numeric fields, parse to number
-          return { ...ingredient, [field]: value === "" ? 0 : Number(value) };
-        }
-        return ingredient;
-      })
+      // ingredients: prev.ingredients.map((ingredient, i) => {
+      //   if (i === index) {
+      //     // For Select, just store the value directly
+      //     if (field === "material") {
+      //       return { ...ingredient, [field]: value };
+      //     }
+      //     // For numeric fields, parse to number
+      //     return { ...ingredient, [field]: value === "" ? 0 : Number(value) };
+      //   }
+      //   return ingredient;
+      // })
     }));
   };
 
   const addIngredient = () => {
     setProduct(prev => ({
       ...prev,
-      ingredients: [...prev.ingredients, { 
-        material: "", 
-        quantity: 0, 
-        waste: 0 
-      }]
+      // ingredients: [...prev.ingredients, { 
+      //   material: "", 
+      //   quantity: 0, 
+      //   waste: 0 
+      // }]
     }));
   };
 
@@ -95,8 +95,8 @@ export default function ReadyProductForm({ authContext, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const validation = validateIngredients();
-    if (!validation.valid) return alert(validation.error);
+    // const validation = validateIngredients();
+    // if (!validation.valid) return alert(validation.error);
 
     try {
   const response = await fetch(`${BASE_URL}/api/product/add`, {
@@ -178,9 +178,18 @@ export default function ReadyProductForm({ authContext, onSuccess }) {
             required
           />
         </div>
-       
+          <div>
+          <Input
+          label="Product Size"
+          color="blue"
+            type="text"
+            value={product.size}
+            onChange={(e) => handleInputChange("size", e.target.value)}
+            required
+          />
+        </div>
         {/* Ingredients Section */}
-        <div className="sm:col-span-2">
+        {/* <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Ingredients
           </label>
@@ -207,7 +216,7 @@ export default function ReadyProductForm({ authContext, onSuccess }) {
                   ))}
                 </Select>
         </div>
-                {/* Quantity Input */}
+          
                 <div>
                 <Input
                   label={`Quantity (${unitSymbol}/unit)`}
@@ -220,7 +229,7 @@ export default function ReadyProductForm({ authContext, onSuccess }) {
                   required
                 />
         </div>
-                {/* Waste Input */}
+              
                 <div >
 
                 <Input
@@ -257,7 +266,7 @@ export default function ReadyProductForm({ authContext, onSuccess }) {
             <PlusIcon className="h-4 w-4 mr-1" />
             Add Ingredient
           </Button>
-        </div>
+        </div> */}
 
         {/* Description field... */}
       </div>

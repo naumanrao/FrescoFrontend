@@ -29,21 +29,7 @@ function downloadTemplates() {
     "Manufacturer",
     "Stock",
     "Price",
-    "Ingredients",
-    
-    // For ingredients, provide columns for up to 3 ingredients as example
-    "ingredient_1_material",
-    "ingredient_1_quantity",
-    "ingredient_1_unitType",
-    "ingredient_1_waste",
-    "ingredient_2_material",
-    "ingredient_2_quantity",
-    "ingredient_2_unitType",
-    "ingredient_2_waste",
-    "ingredient_3_material",
-    "ingredient_3_quantity",
-    "ingredient_3_unitType",
-    "ingredient_3_waste",
+    "Size",
   ];
   const readyProductSheet = XLSX.utils.aoa_to_sheet([readyProductHeaders]);
   const readyProductWB = XLSX.utils.book_new();
@@ -230,7 +216,8 @@ const openIngredientsModal = (ingredients) => {
                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Type</th>
                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Manufacturer</th>
                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Stock</th>
-                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Price</th>
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Size</th>
+                {/* <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Price</th> */}
                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Description</th>
                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Actions</th>
               </tr>
@@ -251,17 +238,18 @@ const openIngredientsModal = (ingredients) => {
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.manufacturer}</td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.stock.toFixed(2)}</td>
-                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">${product.price}</td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.size}</td>
+                      {/* <td className="whitespace-nowrap px-4 py-2 text-gray-700">${product.price}</td> */}
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.description}</td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                        {product.type === "ready" && (
+                        {/* {product.type === "ready" && (
   <button
     className="bg-purple-500 hover:bg-purple-700 text-white px-3 py-1 rounded text-xs font-semibold shadow mr-2"
     onClick={() => openIngredientsModal(product.ingredients)}
   >
     View Ingredients
   </button>
-)}
+)} */}
                         <button className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-semibold shadow mr-2" onClick={() => updateProductModalSetting(product)}>Edit</button>
                         <button className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold shadow" onClick={() => deleteItem(product._id)}>Delete</button>
                       </td>

@@ -43,7 +43,7 @@ export default function BulkUpload({ closeModal, handlePageUpdate }) {
             else payload.items.push(item);
           });
         } else {
-          const expectedHeaders = ["Name", "Manufacturer", "Stock", "Price", "Ingredients"];
+          const expectedHeaders = ["Name", "Manufacturer", "Stock", "Price","Size"];
           validateHeaders(rows[0], expectedHeaders);
 
           rows.slice(1).forEach((row, index) => {
@@ -127,20 +127,21 @@ export default function BulkUpload({ closeModal, handlePageUpdate }) {
       manufacturer: row[1]?.toString().trim(),
       stock: Number(row[2]),
       price: Number(row[3]) || 0,
-      ingredients: tryParseIngredients(row[4]),
+      size: row[4]?.toString().trim(),
+      // ingredients: tryParseIngredients(row[4]),
       type: 'ready'
     };
 
-    // Validate ingredients
-    if (!item.ingredients || !Array.isArray(item.ingredients)) {
-      errors.push(`Row ${rowNum}: Invalid ingredients format`);
-    } else {
-      item.ingredients.forEach((ing, idx) => {
-        if (!ing.material || !ing.quantity || isNaN(ing.quantity) || isNaN(ing.waste)) {
-          errors.push(`Row ${rowNum}: Ingredient ${idx + 1} has invalid data`);
-        }
-      });
-    }
+    // // Validate ingredients
+    // if (!item.ingredients || !Array.isArray(item.ingredients)) {
+    //   errors.push(`Row ${rowNum}: Invalid ingredients format`);
+    // } else {
+    //   item.ingredients.forEach((ing, idx) => {
+    //     if (!ing.material || !ing.quantity || isNaN(ing.quantity) || isNaN(ing.waste)) {
+    //       errors.push(`Row ${rowNum}: Ingredient ${idx + 1} has invalid data`);
+    //     }
+    //   });
+    // }
 
     return { item, errors };
   };
@@ -180,7 +181,7 @@ export default function BulkUpload({ closeModal, handlePageUpdate }) {
           <p className="text-sm text-gray-500 mt-2">
             {uploadType === 'raw' ? 
               "Template columns: Name, Manufacturer, Stock, UnitType (bulk/discrete), Size, Description, Price" :
-              "Template columns: Name, Manufacturer, Stock, Price, Ingredients (JSON array)"
+              "Template columns: Name, Manufacturer, Stock, Price"
             }
           </p>
         </div>
