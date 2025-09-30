@@ -45,7 +45,7 @@ const ManageBOMsPage = ({ authContext }) => {
         setLoading(false);
       }
     };
-    fetchInitialData();
+    if (authContext.user)  fetchInitialData();
   }, [authContext.user._id]);
 
   // Fetch BOM for selected product

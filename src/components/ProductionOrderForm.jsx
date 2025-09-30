@@ -71,7 +71,7 @@ const ProductionOrderForm = ({ authContext }) => {
       // Fetch the selected finished product with its BOM populated
       const productRes = await api.get(`/get/${authContext.user._id}`); // Re-fetch all or get specific if /get/:id exists
       const fullProduct = productRes.data.find(p => p._id === selectedProductId);
-
+console.log('Selected Finished Product:', fullProduct);
       if (!fullProduct) {
         throw new Error('Selected finished product details not found.');
       }
@@ -86,6 +86,7 @@ const ProductionOrderForm = ({ authContext }) => {
 
       // Fetch all raw materials to get their current stock
       const rawMaterialsRes = await api.get(`/get-raw-materials/${authContext.user._id}`);
+      console.log('Fetched Raw Materials:', rawMaterialsRes.data);
       const rawMap = rawMaterialsRes.data.reduce((acc, rm) => {
         acc[rm._id] = rm;
         return acc;
@@ -93,10 +94,17 @@ const ProductionOrderForm = ({ authContext }) => {
       setRawMaterialsMap(rawMap);
 
       const initialBomDetails = fullProduct.ingredients.map(ing => {
-        const rawMaterialData = rawMap[ing.material._id];
+        // Defensive: handle both string and object forms
+        const materialId = typeof ing.material === 'string' ? ing.material : ing.material._id;
+        // Debug logging
+        console.log('BOM ingredient:', ing.material);
+        console.log('rawMaterialsMap keys:', Object.keys(rawMap));
+        console.log('Looking up materialId:', materialId);
+        const rawMaterialData = rawMap[materialId];
+        console.log('Raw material lookup result:', rawMaterialData);
         return {
-          materialId: ing.material._id,
-          materialName: rawMaterialData?.name || ing.material.name || 'Unknown',
+          materialId,
+          materialName: rawMaterialData?.name || ing.material.name || materialId || 'Unknown',
           materialUnitType: rawMaterialData?.unitType || ing.material.unitType || 'units',
           materialSize: rawMaterialData?.size || ing.material.size || '',
           idealQuantityPerUnit: ing.quantity,
